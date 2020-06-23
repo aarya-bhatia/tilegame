@@ -11,25 +11,56 @@
     <div class="header">
         <h1> Tile Game </h1>
         <p>Try to recreate the picture of the panda by moving the tiles! To start a new game click on the shuffle button.</p>
-        <label>Shuffle Strokes</label>
-        <input type="number" id="strokes" min="20" max="200" step="20" value="100">
+
+        <div class="settings">
+        <span>Difficulty: </span>
+        <input type="radio" id="easy" name="difficulty" value="easy" checked>
+        <label for="easy">Easy</label>
+        <input type="radio" id="hard" name="difficulty" value="hard">
+        <label for="hard">Hard</label>
+        <button id="levelBtn">OK</button>
+        <div>
+        <br>
+
+        <div class="shuffle">
+            <label for="strokes">Shuffle Strokes</label>
+            <input type="number" id="strokes" min="20" max="200" step="20" value="100">
+            <span id="button"></span>
+        </div>
     </div>
 
     <div class="content">
         <div id="canvas"></div>
         <img src="panda.png" alt="panda" width="400px" height="400px">
     </div>
+
     <br>
-    <div class="solve" style="display: block"><button id="solvePuzzle">Solve It</button></div>
+    <div class="solve"><button id="solvePuzzle">Solve It</button></div>
     <hr>
     <footer>© Aarya Bhatia 2020 </footer>
     <script src="sketch.js"></script>
     <script src="cell.js"></script>
     <script type="text/javascript">
-        var solveButton = document.getElementById("solvePuzzle");
+        let solveButton = document.getElementById("solvePuzzle");
         solveButton.addEventListener("click", solvePuzzle);
         function solvePuzzle(){
             alert("This feature is still in development.");
         }
+
+        let levelButton = document.querySelector("#levelBtn");
+        levelButton.onclick = function() {
+            const rbs = document.querySelectorAll(
+                'input[name="difficulty"]');
+            let selectedValue;
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
+                }
+            }
+            alert("You have selected mode: " + selectedValue);
+            difficulty = selectedValue;
+            level(difficulty);
+        };
     </script>
 </body></html>

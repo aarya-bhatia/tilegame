@@ -8,6 +8,7 @@ let sclx = 100;
 let scly = 100;
 let strokesInput;
 let shuffleStrokes = 100;
+let difficulty = "easy";
 
 function preload() {
   panda = loadImage("panda.png");
@@ -19,7 +20,7 @@ function setup() {
   panda.resize(w,h);
   setupGame();
   let button = createButton("Shuffle pieces");
-  select(".header").child(button);
+  button.parent("button");
   strokesInput = select("#strokes");
   shuffleStrokes = strokesInput.value();
 
@@ -29,6 +30,7 @@ function setup() {
 function setupGame() {
   images = [];
   puzzle = [];
+  originalTiles = [];
   
   for(let i = 0; i < h/scly; i++){
     for(let j = 0; j < w/sclx; j++){
@@ -118,6 +120,27 @@ function solve(openSpot, cells) {
     }
     if(probable.length >= 4) {
         break; //all spots found
+      }
     }
   }
-}
+
+  function level(mode) {
+    if(mode == "easy") {
+      w = 390;
+      h = 390;
+      sclx = 130;
+      scly = 130;
+      resizeCanvas(w, h);
+      panda.resize(w, h);
+      setupGame();
+    }
+    else if(mode == "hard") {
+      w = 400;
+      h = 400;
+      sclx = 100;
+      scly = 100;
+      resizeCanvas(w, h);
+      panda.resize(w, h);
+      setupGame();
+    }
+  }
