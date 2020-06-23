@@ -15,14 +15,12 @@ function setup() {
   canvas.parent("canvas");
   panda.resize(w,h);
   setupGame();
+  let button = createButton("Shuffle pieces");
+  select(".header").child(button);
+  button.mousePressed(handleShuffle);
 }
 
 function setupGame() {
-  /*
-  w = window.innerWidth - (window.innerWidth) % sclx;
-  h = window.innerHeight - (window.innerHeight) % scly;
-  resizeCanvas(w, h);
-  */
   images = [];
   puzzle = [];
   
@@ -34,30 +32,15 @@ function setupGame() {
       let img = panda.get(x, y, sclx, scly);
       images.push(img);
       //Create the cells with blank images.
-      let cell = new Cell(x, y, null);
+      let cell = new Cell(x, y, img);
       puzzle.push(cell);
-      
-      console.log(x,y);
-      image(img,x,y);
+      //console.log(x,y);
     }
   }
 
-  
-  //Shuffle Algorithm
-  //note that last cell will not contain image..
-  for(let i = 0; i < puzzle.length - 1; i++) {
-    //Get a random image from the img array
-    //Assign this image to the current Cell object
-    //Remove that image from img[] so that another cell
-    //will not have duplicate copies.
-    
-    let randomIndx = floor(random(0, images.length));
-    let randomImg = images[randomIndx];
-    puzzle[i].setImage(randomImg);
-    images.splice(randomIndx, 1);
-  }
-  
-  //loop();
+  //first tile to be blank
+  puzzle[0].setImage(null);
+  images.splice(0, 1);
 }
 
 function draw() {
@@ -71,15 +54,17 @@ function draw() {
 function mousePressed() {
   for(let i = 0; i < puzzle.length; i++) {
     if(puzzle[i].hasMouse()) {
-      //console.log(puzzle[i] + " is selected.");
       puzzle[i].nextSpot(puzzle);
     }
   }
 }
 
-/*
-window.addEventListener("resize", function(){
-  noLoop();
-  setupGame();
-});
-*/
+function handleShuffle() {
+  images = shuffle(images);
+  puzzle = shuffle(puzzle);
+
+  for(let i = 0; i < puzzle.length; i++) {
+    puzzle[i].setImage(null);
+    puzzle[i].setImage(images[i]);
+  }
+}
