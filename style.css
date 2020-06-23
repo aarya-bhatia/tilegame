@@ -26,7 +26,7 @@ img{
 		padding: 10px;
 	}
 
-	.solve {
+	.solve, footer {
 		clear: left;
 	}
 }
