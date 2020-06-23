@@ -2,11 +2,19 @@ function Cell(x, y, img) {
   this.x = x;
   this.y = y;
   this.img = img;
-}
 
-Cell.prototype.setImage = function(img){
-  this.img = img;  
-};
+  this.setImage = function(img) {
+    this.img = img;
+  }
+
+  this.getImage = function() {
+    return this.img;
+  }
+
+  this.hasImage = function() {
+    return this.img != null;
+  }
+}
 
 Cell.prototype.show = function() {
   strokeWeight(3);
@@ -16,13 +24,8 @@ Cell.prototype.show = function() {
 
 Cell.prototype.nextSpot = function(cells) {
   for(let i = 0; i < cells.length; i++){
-    if(this.can_go(cells[i]) && cells[i].img == null) {
-      console.log(this.x, this.y, cells[i].x, cells[i].y);
-      //console.log(cells[i] + " is next.");
-      let temp = cells[i].img;
-      cells[i].img = this.img;
-      this.img = temp;
-    }
+    if(this.can_go(cells[i]) && cells[i].img == null) 
+      switchImages(this, cells[i]);
   }
 };
 
